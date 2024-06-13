@@ -1,0 +1,11 @@
+import pandas as pd
+from convokit import Corpus, download
+
+corpus = Corpus(filename=download("movie-corpus"))
+data = []
+for convo in corpus.iter_conversations():
+    for utt in convo.iter_utterances():
+        data.append([utt.id, utt.text, utt.speaker.id, convo.id])
+
+df = pd.DataFrame(data, columns=["Utterance_ID", "Text", "Speaker_ID", "Conversation_ID"])
+df.to_csv("preprocessed_movie_corpus.csv", index=False)
